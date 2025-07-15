@@ -19,10 +19,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:lib": "vite build",
+    "build": "tsc -b && vite build --mode lib",
+    "build:lib": "vite build --mode lib",
+    "build:preview": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "npm run build:preview && vite preview"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
