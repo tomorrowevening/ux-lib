@@ -1,0 +1,88 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from 'react';
+
+interface DragNumberProps {
+  label: React.RefObject<HTMLLabelElement | null>
+  input: React.RefObject<HTMLInputElement | null>
+  sliderRef?: React.RefObject<HTMLInputElement | null>
+  defaultValue: number
+  min?: number
+  max?: number
+  step?: number
+  onChange?: (value: number) => void
+}
+
+export function useDragNumber(props: DragNumberProps) {
+  const [fieldValue, setFieldValue] = useState(props.defaultValue);
+
+  // Sync fieldValue when defaultValue changes (e.g., from canvas dragging)
+  useEffect(() => {
+    setFieldValue(props.defaultValue);
+  }, [props.defaultValue]);
+
+  useEffect(() => {
+    let mouseDown = false;
+    let mouseStart = -1;
+    let valueStart = 0;
+    let value = props.defaultValue;
+    let multiplyAmount = false;
+
+    const onKeyEvent = (evt: KeyboardEvent) => {
+      multiplyAmount = evt.ctrlKey;
+    };
+
+    const onMouseDown = (evt: MouseEvent) => {
+      mouseDown = true;
+      valueStart = Number(props.input.current?.value);
+      mouseStart = evt.clientX;
+      document.addEventListener('mouseup', onMouseUp, false);
+      document.addEventListener('mousemove', onMouseMove, false);
+      document.addEventListener('contextmenu', onMouseUp, false);
+    };
+
+    const onMouseMove = (evt: MouseEvent) => {
+      if (!mouseDown) return;
+      const deltaAmt = props.step !== undefined ? props.step : 1;
+      const delta = (evt.clientX - mouseStart) * deltaAmt * (multiplyAmount ? 10 : 1);
+      value = Number((valueStart + delta).toFixed(4));
+      if (props.min !== undefined) value = Math.max(value, props.min);
+      if (props.max !== undefined) value = Math.min(value, props.max);
+      if (props.onChange !== undefined) props.onChange(value);
+      setFieldValue(value);
+    };
+
+    const onMouseUp = () => {
+      mouseDown = false;
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('contextmenu', onMouseUp);
+    };
+
+    const onSlide = (evt: any) => {
+      const newValue = Number(evt.target.value);
+      if (props.onChange !== undefined) props.onChange(newValue);
+      setFieldValue(newValue);
+    };
+
+    props.label.current?.addEventListener('mousedown', onMouseDown, false);
+    if (props.sliderRef !== undefined) {
+      props.sliderRef.current?.addEventListener('input', onSlide);
+    }
+    document.addEventListener('keydown', onKeyEvent, false);
+    document.addEventListener('keyup', onKeyEvent, false);
+
+    return () => {
+      props.label.current?.removeEventListener('mousedown', onMouseDown);
+      if (props.sliderRef !== undefined) {
+        props.sliderRef.current?.removeEventListener('input', onSlide);
+      }
+      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('contextmenu', onMouseUp);
+      document.removeEventListener('keydown', onKeyEvent);
+      document.addEventListener('keyup', onKeyEvent, false);
+    };
+  }, [props]);
+
+  return fieldValue;
+}

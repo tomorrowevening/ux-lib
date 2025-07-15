@@ -1,0 +1,83 @@
+// Accordion Styles
+.accordion {
+  border: 1px solid var(--border-color, #333);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background: var(--background-color, #1e1e1e);
+
+  &.hide {
+    resize: none;
+    overflow-y: hidden;
+  }
+
+  .accordion-header {
+    width: 100%;
+    padding: 0 10px;
+    background: var(--header-background, #2d2d2d);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color, #ffffff);
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    height: 30px;
+    line-height: 0;
+
+    &:hover {
+      background: var(--header-hover-background, #3d3d3d);
+    }
+
+    &.open {
+      border-bottom: 1px solid var(--border-color, #333);
+    }
+
+    .accordion-title {
+      text-align: left;
+      flex: 1;
+    }
+
+    .accordion-arrow {
+      font-size: 12px;
+      transition: transform 0.2s ease;
+      color: var(--accent-color, #FFF);
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+
+    &.open {
+      max-height: 1000px; // Large enough value for most content
+    }
+
+    .accordion-body {
+      padding: 2px;
+      color: var(--text-color, #ffffff);
+    }
+  }
+
+  // Nested accordion support
+  .accordion {
+    margin-bottom: 4px;
+    border-radius: 2px;
+
+    .accordion-header {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .accordion-body {
+      padding: 12px;
+    }
+  }
+}

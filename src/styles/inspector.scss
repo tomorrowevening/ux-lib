@@ -1,0 +1,365 @@
+// Inspector Field Styles
+.inspector-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  margin: 2px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  min-height: 24px;
+  user-select: none;
+
+  input {
+    height: 20px;
+    &:disabled {
+      opacity: 0.75;
+    }
+  }
+
+  &.block {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &.button-field {
+    justify-content: center;
+  }
+
+  .field-label {
+    color: #ccc;
+    font-size: 12px;
+    min-width: 60px;
+    cursor: ew-resize;
+    padding: 2px 4px;
+    border-radius: 2px;
+    transition: background-color 0.2s;
+
+    &.dragging {
+      background-color: rgba(255, 107, 107, 0.3);
+      color: #ff6b6b;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.non-draggable {
+      cursor: default;
+      
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .field-control {
+    flex: 0.95;
+    display: flex;
+    justify-content: flex-end;
+    
+    // For range inputs, stack vertically
+    &:has(.field-range) {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  .field-input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #555;
+    border-radius: 3px;
+    color: #fff;
+    padding: 2px 6px;
+    font-size: 12px;
+    width: calc(100% - 12px);
+    text-align: right;
+
+    &:focus {
+      outline: none;
+      border-color: #ff6b6b;
+    }
+  }
+
+  .field-range {
+    background: transparent;
+    width: 100%;
+    height: 20px;
+    border-radius: 2px;
+    outline: none;
+    margin-top: 2px;
+  }
+
+  input {
+    height: 14px;
+  }
+
+  input[type='number'], input[type='range'] {
+    appearance: none;
+  }
+
+  input[type='range'] {
+    height: 20px;
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid #555;
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    background-color: #666;
+    cursor: pointer;
+    height: 17px;
+    width: 17px;
+    transition: 0.2s linear background-color;
+    &:hover {
+      background-color: #999;
+    }
+  }
+
+  .field-checkbox {
+    width: 16px;
+    height: 16px;
+    appearance: none;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #555;
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+
+    &:checked {
+      background: #ff6b6b;
+      border-color: #ff6b6b;
+    }
+
+    &:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -2px;
+      left: 2px;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  .field-color {
+    width: 100%;
+    height: 20px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background: transparent;
+    cursor: pointer;
+    
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: 2px;
+    }
+  }
+
+  .field-select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #555;
+    border-radius: 3px;
+    color: #fff;
+    padding: 2px 6px;
+    font-size: 12px;
+    min-width: 80px;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+      border-color: #ff6b6b;
+    }
+
+    option {
+      background: #2a2a2a;
+      color: #fff;
+    }
+  }
+
+  .field-button {
+    background: rgba(255, 107, 107, 0.8);
+    border: none;
+    border-radius: 3px;
+    color: white;
+    padding: 4px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+
+    &:hover {
+      background: rgba(255, 107, 107, 1);
+    }
+
+    &:active {
+      background: rgba(255, 107, 107, 0.6);
+    }
+  }
+}
+
+// Vector2 Field Styles
+.vector2-field {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 8px;
+
+  .vector2-inputs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .vector2-input {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+
+    .field-label {
+      min-width: 12px;
+      text-align: center;
+    }
+
+    .field-input {
+      flex: 1;
+    }
+  }
+
+  .vector2-canvas-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .vector2-canvas {
+    border: 1px solid #555;
+    border-radius: 3px;
+    background: 
+      linear-gradient(90deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0.05) 50%, 
+        rgba(255,255,255,0.1) 100%
+      ),
+      linear-gradient(0deg, 
+        rgba(255,255,255,0.1) 0%, 
+        rgba(255,255,255,0.05) 50%, 
+        rgba(255,255,255,0.1) 100%
+      ),
+      radial-gradient(circle at center, 
+        rgba(255,255,255,0.05) 0%, 
+        rgba(0,0,0,0.1) 100%
+      );
+    cursor: crosshair;
+  }
+}
+
+// Grid3 Field Styles
+.grid3-field {
+  flex-direction: column;
+  align-items: stretch;
+
+  .grid3-inputs {
+    display: flex;
+    gap: 8px;
+  }
+
+  .grid3-input {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+
+    .field-label {
+      min-width: 12px;
+      text-align: center;
+    }
+
+    .field-input {
+      flex: 1;
+    }
+  }
+}
+
+// Grid4 Field Styles
+.grid4-field {
+  flex-direction: column;
+  align-items: stretch;
+
+  .grid4-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .grid4-input {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .field-label {
+      min-width: 12px;
+      text-align: center;
+    }
+
+    .field-input {
+      flex: 1;
+    }
+  }
+}
+
+// Image Field Styles
+.image-field {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  width: 100%;
+
+  .image-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .image-button {
+    flex-shrink: 0;
+  }
+
+  .image-clear-button {
+    background: rgba(255, 255, 255, 0.1);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .image-info {
+    margin-top: 4px;
+    
+    .image-filename {
+      font-size: 11px;
+      color: #aaa;
+      font-style: italic;
+    }
+  }
+
+  .image-preview {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+
+    .preview-image {
+      max-width: 200px;
+      max-height: 200px;
+      border: 1px solid #555;
+      border-radius: 3px;
+      object-fit: contain;
+    }
+  }
+}
