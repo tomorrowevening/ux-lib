@@ -12,7 +12,7 @@
       "import": "./dist/ux-lib.es.js",
       "require": "./dist/ux-lib.umd.js"
     },
-    "./styles": "./dist/style.css"
+    "./styles": "./dist/ux-lib.css"
   },
   "files": [
     "dist"
@@ -23,7 +23,8 @@
     "build:lib": "vite build --mode lib",
     "build:preview": "vite build",
     "lint": "eslint .",
-    "preview": "npm run build:preview && vite preview"
+    "preview": "npm run build:preview && vite preview",
+    "prepublishOnly": "npm run lint && npm run build"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

@@ -14,6 +14,17 @@ export default defineConfig(({ mode }) => {
         react(),
         dts({
           insertTypesEntry: true,
+          include: ['src/**/*'],
+          exclude: ['src/**/*.test.*', 'src/**/*.spec.*'],
+          entryRoot: 'src',
+          outDir: 'dist',
+          tsconfigPath: './tsconfig.app.json',
+          compilerOptions: {
+            noEmit: false,
+            verbatimModuleSyntax: false,
+            declaration: true,
+            emitDeclarationOnly: true,
+          }
         })
       ],
       build: {
