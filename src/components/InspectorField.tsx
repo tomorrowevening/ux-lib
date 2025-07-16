@@ -4,44 +4,14 @@ import { InspectVector2 } from './InspectVector2';
 import { InspectGrid3 } from './InspectGrid3';
 import { InspectGrid4 } from './InspectGrid4';
 import { InspectImage } from './InspectImage';
-
-export interface Vector2Value {
-  x: number;
-  y: number;
-}
-
-export interface Grid3Value {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export interface Grid4Value {
-  x: number;
-  y: number;
-  z: number;
-  w: number;
-}
-
-export interface OptionValue {
-  label: string;
-  value: string | number | boolean;
-}
-
-export type FieldValue = string | number | boolean | Vector2Value | Grid3Value | Grid4Value | OptionValue[];
-
-export type FieldType = 
-  | 'string' 
-  | 'number' 
-  | 'range'
-  | 'boolean' 
-  | 'color' 
-  | 'vector2' 
-  | 'grid3' 
-  | 'grid4' 
-  | 'image' 
-  | 'option' 
-  | 'button';
+import type {
+  Grid3Value,
+  Grid4Value,
+  FieldType,
+  FieldValue,
+  OptionValue,
+  Vector2Value,
+} from './types';
 
 export interface InspectorFieldProps {
   label: string;

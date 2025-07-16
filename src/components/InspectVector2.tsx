@@ -1,10 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import type { FC } from 'react';
 import { useDragNumber } from '../hooks/useDragNumber';
-
-interface Vector2Value {
-  x: number;
-  y: number;
-}
+import type { Vector2Value } from './types';
 
 interface InspectVector2Props {
   value: Vector2Value;
@@ -14,7 +11,7 @@ interface InspectVector2Props {
   step?: number;
 }
 
-export const InspectVector2: React.FC<InspectVector2Props> = ({
+export const InspectVector2: FC<InspectVector2Props> = ({
   value,
   onChange,
   min = 0,

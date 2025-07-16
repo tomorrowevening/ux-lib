@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import type { ChangeEvent, FC } from 'react';
 
 interface InspectImageProps {
   value: string;
   onChange: (value: string) => void;
 }
 
-export const InspectImage: React.FC<InspectImageProps> = ({
+export const InspectImage: FC<InspectImageProps> = ({
   value,
   onChange
 }) => {
@@ -13,7 +14,7 @@ export const InspectImage: React.FC<InspectImageProps> = ({
   const [fileName, setFileName] = useState<string>('');
   const [previewUrl, setPreviewUrl] = useState<string>(value);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFileName(file.name);

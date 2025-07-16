@@ -1,13 +1,14 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
+import type { FC, ReactNode } from 'react';
 
 interface AccordionProps {
   title: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   defaultOpen?: boolean;
   className?: string;
 }
 
-export const Accordion: React.FC<AccordionProps> = ({
+export const Accordion: FC<AccordionProps> = ({
   title,
   children,
   defaultOpen = false,

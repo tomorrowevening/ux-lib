@@ -1,4 +1,5 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
+import type { FC } from 'react';
 import { useDragNumber } from '../hooks/useDragNumber';
 
 interface InspectNumberProps {
@@ -12,7 +13,7 @@ interface InspectNumberProps {
   disabled?: boolean;
 }
 
-export const InspectNumber: React.FC<InspectNumberProps> = ({
+export const InspectNumber: FC<InspectNumberProps> = ({
   label,
   value,
   onChange,

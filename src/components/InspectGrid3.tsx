@@ -1,11 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import type { FC } from 'react';
 import { useDragNumber } from '../hooks/useDragNumber';
-
-interface Grid3Value {
-  x: number;
-  y: number;
-  z: number;
-}
+import type { Grid3Value } from './types';
 
 interface InspectGrid3Props {
   value: Grid3Value;
@@ -16,7 +12,7 @@ interface InspectGrid3Props {
   disabled?: boolean;
 }
 
-export const InspectGrid3: React.FC<InspectGrid3Props> = ({
+export const InspectGrid3: FC<InspectGrid3Props> = ({
   value,
   onChange,
   min,
