@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import type { RefObject } from 'react';
 
 interface DragNumberProps {
-  label: React.RefObject<HTMLLabelElement | null>
-  input: React.RefObject<HTMLInputElement | null>
-  sliderRef?: React.RefObject<HTMLInputElement | null>
+  label: RefObject<HTMLLabelElement | null>
+  input: RefObject<HTMLInputElement | null>
+  sliderRef?: RefObject<HTMLInputElement | null>
   defaultValue: number
   min?: number
   max?: number
@@ -12,8 +13,14 @@ interface DragNumberProps {
   onChange?: (value: number) => void
 }
 
+// Derp
+
 export function useDragNumber(props: DragNumberProps) {
   const [fieldValue, setFieldValue] = useState(props.defaultValue);
+  const propsRef = useRef(props);
+  
+  // Update ref when props change
+  propsRef.current = props;
 
   // Sync fieldValue when defaultValue changes (e.g., from canvas dragging)
   useEffect(() => {
@@ -31,58 +38,60 @@ export function useDragNumber(props: DragNumberProps) {
       multiplyAmount = evt.ctrlKey;
     };
 
-    const onMouseDown = (evt: MouseEvent) => {
-      mouseDown = true;
-      valueStart = Number(props.input.current?.value);
-      mouseStart = evt.clientX;
-      document.addEventListener('mouseup', onMouseUp, false);
-      document.addEventListener('mousemove', onMouseMove, false);
-      document.addEventListener('contextmenu', onMouseUp, false);
-    };
-
     const onMouseMove = (evt: MouseEvent) => {
       if (!mouseDown) return;
-      const deltaAmt = props.step !== undefined ? props.step : 1;
+      const currentProps = propsRef.current;
+      const deltaAmt = currentProps.step !== undefined ? currentProps.step : 1;
       const delta = (evt.clientX - mouseStart) * deltaAmt * (multiplyAmount ? 10 : 1);
       value = Number((valueStart + delta).toFixed(4));
-      if (props.min !== undefined) value = Math.max(value, props.min);
-      if (props.max !== undefined) value = Math.min(value, props.max);
-      if (props.onChange !== undefined) props.onChange(value);
+      if (currentProps.min !== undefined) value = Math.max(value, currentProps.min);
+      if (currentProps.max !== undefined) value = Math.min(value, currentProps.max);
+      if (currentProps.onChange !== undefined) currentProps.onChange(value);
       setFieldValue(value);
     };
 
     const onMouseUp = () => {
       mouseDown = false;
-      document.removeEventListener('mouseup', onMouseUp);
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('contextmenu', onMouseUp);
+    };
+
+    const onMouseDown = (evt: MouseEvent) => {
+      mouseDown = true;
+      const currentProps = propsRef.current;
+      valueStart = Number(currentProps.input.current?.value);
+      mouseStart = evt.clientX;
     };
 
     const onSlide = (evt: any) => {
+      const currentProps = propsRef.current;
       const newValue = Number(evt.target.value);
-      if (props.onChange !== undefined) props.onChange(newValue);
+      if (currentProps.onChange !== undefined) currentProps.onChange(newValue);
       setFieldValue(newValue);
     };
 
-    props.label.current?.addEventListener('mousedown', onMouseDown, false);
-    if (props.sliderRef !== undefined) {
-      props.sliderRef.current?.addEventListener('input', onSlide);
-    }
+    // Add all listeners at once - no dynamic adding/removing
+    const labelElement = props.label.current;
+    const sliderElement = props.sliderRef?.current;
+    
+    labelElement?.addEventListener('mousedown', onMouseDown, false);
+    sliderElement?.addEventListener('input', onSlide);
     document.addEventListener('keydown', onKeyEvent, false);
     document.addEventListener('keyup', onKeyEvent, false);
-
+    document.addEventListener('mouseup', onMouseUp, false);
+    document.addEventListener('mousemove', onMouseMove, false);
+    document.addEventListener('contextmenu', onMouseUp, false);
+    
     return () => {
-      props.label.current?.removeEventListener('mousedown', onMouseDown);
-      if (props.sliderRef !== undefined) {
-        props.sliderRef.current?.removeEventListener('input', onSlide);
-      }
+      // Remove all listeners using captured elements
+      labelElement?.removeEventListener('mousedown', onMouseDown);
+      sliderElement?.removeEventListener('input', onSlide);
+      document.removeEventListener('keydown', onKeyEvent);
+      document.removeEventListener('keyup', onKeyEvent);
       document.removeEventListener('mouseup', onMouseUp);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('contextmenu', onMouseUp);
-      document.removeEventListener('keydown', onKeyEvent);
-      document.addEventListener('keyup', onKeyEvent, false);
     };
-  }, [props]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array to prevent re-running on prop changes
 
   return fieldValue;
 }
