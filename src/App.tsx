@@ -17,13 +17,7 @@ export default function App() {
   const [imageValue, setImageValue] = useState('');
 
   return (
-    <div style={{ 
-      padding: '20px', 
-      backgroundColor: '#111', 
-      color: '#fff',
-      minHeight: '100vh',
-      fontFamily: 'Arial, sans-serif'
-    }}>
+    <div>
       <h1>UX Library</h1>
       <p>React components extracted from <a href='https://github.com/tomorrowevening/hermes' target='_blank'>Hermes</a> editor</p>
       

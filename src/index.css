@@ -27,9 +27,14 @@ a:hover {
 }
 
 body {
+  background-color: #111;
+  border-radius: 8px;
+  color: #FFF;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   display: flex;
   place-items: center;
+  padding: 20px;
   min-width: 320px;
   min-height: 100vh;
 }
