@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import type { FC } from 'react';
+import { useRef, memo, useCallback } from 'react';
 import { useDragNumber } from '../hooks/useDragNumber';
 
 interface InspectNumberProps {
@@ -13,7 +12,7 @@ interface InspectNumberProps {
   disabled?: boolean;
 }
 
-export const InspectNumber: FC<InspectNumberProps> = ({
+export const InspectNumber = memo(function InspectNumber({
   label,
   value,
   onChange,
@@ -22,10 +21,19 @@ export const InspectNumber: FC<InspectNumberProps> = ({
   step = 0.01,
   type = 'number',
   disabled = false,
-}) => {
+}: InspectNumberProps) {
   const labelRef = useRef<HTMLLabelElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const sliderRef = useRef<HTMLInputElement>(null);
+
+  const handleChange = useCallback((newValue: number) => {
+    onChange(newValue);
+  }, [onChange]);
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseFloat(e.target.value) || 0;
+    handleChange(newValue);
+  }, [handleChange]);
 
   const fieldValue = useDragNumber({
     label: labelRef,
@@ -35,7 +43,7 @@ export const InspectNumber: FC<InspectNumberProps> = ({
     min,
     max,
     step,
-    onChange
+    onChange: handleChange
   });
 
   return (
@@ -55,10 +63,7 @@ export const InspectNumber: FC<InspectNumberProps> = ({
               value={fieldValue}
               className="field-input min"
               disabled={disabled}
-              onChange={(e) => {
-                const newValue = parseFloat(e.target.value) || 0;
-                onChange(newValue);
-              }}
+              onChange={handleInputChange}
             />
             <input
               ref={sliderRef}
@@ -78,10 +83,7 @@ export const InspectNumber: FC<InspectNumberProps> = ({
             type="number"
             value={fieldValue}
             disabled={disabled}
-            onChange={(e) => {
-              const newValue = parseFloat(e.target.value) || 0;
-              onChange(newValue);
-            }}
+            onChange={handleInputChange}
             min={min}
             max={max}
             step={step}
@@ -91,4 +93,4 @@ export const InspectNumber: FC<InspectNumberProps> = ({
       </div>
     </>
   );
-};
+});

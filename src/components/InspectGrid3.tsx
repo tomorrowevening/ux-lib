@@ -1,5 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
-import type { FC } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 import { useDragNumber } from '../hooks/useDragNumber';
 import type { Grid3Value } from './types';
 
@@ -12,14 +11,14 @@ interface InspectGrid3Props {
   disabled?: boolean;
 }
 
-export const InspectGrid3: FC<InspectGrid3Props> = ({
+export const InspectGrid3 = memo(function InspectGrid3({
   value,
   onChange,
   min,
   max,
   step = 0.01,
   disabled = false,
-}) => {
+}: InspectGrid3Props) {
   const [x, setX] = useState(value.x);
   const [y, setY] = useState(value.y);
   const [z, setZ] = useState(value.z);
@@ -166,4 +165,4 @@ export const InspectGrid3: FC<InspectGrid3Props> = ({
       </div>
     </div>
   );
-};
+});

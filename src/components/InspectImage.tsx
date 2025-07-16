@@ -1,20 +1,20 @@
-import { useRef, useState } from 'react';
-import type { ChangeEvent, FC } from 'react';
+import { useRef, useState, memo, useCallback } from 'react';
+import type { ChangeEvent } from 'react';
 
 interface InspectImageProps {
   value: string;
   onChange: (value: string) => void;
 }
 
-export const InspectImage: FC<InspectImageProps> = ({
+export const InspectImage = memo(function InspectImage({
   value,
   onChange
-}) => {
+}: InspectImageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState<string>('');
   const [previewUrl, setPreviewUrl] = useState<string>(value);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setFileName(file.name);
@@ -31,20 +31,20 @@ export const InspectImage: FC<InspectImageProps> = ({
       };
       reader.readAsDataURL(file);
     }
-  };
+  }, [onChange]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = useCallback(() => {
     fileInputRef.current?.click();
-  };
+  }, []);
 
-  const clearImage = () => {
+  const clearImage = useCallback(() => {
     setFileName('');
     setPreviewUrl('');
     onChange('');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-  };
+  }, [onChange]);
 
   return (
     <div className="inspector-field image-field">
@@ -87,4 +87,4 @@ export const InspectImage: FC<InspectImageProps> = ({
       )}
     </div>
   );
-};
+});

@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import type { FC, ReactNode } from 'react';
+import { useState, useRef, memo, useCallback } from 'react';
+import type { ReactNode } from 'react';
 
 interface AccordionProps {
   title: string;
@@ -8,19 +8,19 @@ interface AccordionProps {
   className?: string;
 }
 
-export const Accordion: FC<AccordionProps> = ({
+export const Accordion = memo(function Accordion({
   title,
   children,
   defaultOpen = false,
   className = ''
-}) => {
+}: AccordionProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
   const hide = !isOpen || children === undefined;
 
-  const toggleAccordion = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleAccordion = useCallback(() => {
+    setIsOpen(prev => !prev);
+  }, []);
 
   return (
     <div className={`accordion ${hide ? 'hide' : ''} ${className}`}>
@@ -45,4 +45,4 @@ export const Accordion: FC<AccordionProps> = ({
       </div>
     </div>
   );
-};
+});

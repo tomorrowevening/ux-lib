@@ -1,5 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
-import type { FC } from 'react';
+import { useRef, useState, useEffect, memo } from 'react';
 import { useDragNumber } from '../hooks/useDragNumber';
 import type { Vector2Value } from './types';
 
@@ -11,13 +10,13 @@ interface InspectVector2Props {
   step?: number;
 }
 
-export const InspectVector2: FC<InspectVector2Props> = ({
+export const InspectVector2 = memo(function InspectVector2({
   value,
   onChange,
   min = 0,
   max = 1,
   step = 0.01
-}) => {
+}: InspectVector2Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -237,4 +236,4 @@ export const InspectVector2: FC<InspectVector2Props> = ({
       </div>
     </div>
   );
-};
+});

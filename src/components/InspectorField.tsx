@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo, useCallback } from 'react';
 import { InspectNumber } from './InspectNumber';
 import { InspectVector2 } from './InspectVector2';
 import { InspectGrid3 } from './InspectGrid3';
@@ -27,7 +27,7 @@ export interface InspectorFieldProps {
   disabled?: boolean;
 }
 
-export const InspectorField: React.FC<InspectorFieldProps> = ({
+export const InspectorField = memo(function InspectorField({
   label,
   type,
   value,
@@ -39,10 +39,14 @@ export const InspectorField: React.FC<InspectorFieldProps> = ({
   options,
   block = false,
   disabled = false,
-}) => {
-  const handleChange = (newValue: FieldValue) => {
+}: InspectorFieldProps) {
+  const handleChange = useCallback((newValue: FieldValue) => {
     onChange?.(newValue);
-  };
+  }, [onChange]);
+
+  const handleClick = useCallback(() => {
+    onClick?.();
+  }, [onClick]);
 
   const renderField = () => {
     switch (type) {
@@ -170,7 +174,7 @@ export const InspectorField: React.FC<InspectorFieldProps> = ({
       case 'button':
         return (
           <button
-            onClick={onClick}
+            onClick={handleClick}
             className="field-button"
           >
             {label}
@@ -200,4 +204,4 @@ export const InspectorField: React.FC<InspectorFieldProps> = ({
       </div>
     </div>
   );
-};
+});
