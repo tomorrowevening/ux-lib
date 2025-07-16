@@ -1,6 +1,5 @@
 {
-  "name": "@tomorrow-evening/ux-lib",
-  "private": false,
+  "name": "@tomorrowevening/ux-lib",
   "version": "1.0.1",
   "type": "module",
   "main": "./dist/ux-lib.umd.js",
@@ -17,6 +16,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build --mode lib",
