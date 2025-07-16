@@ -137,12 +137,10 @@ export const InspectVector2: React.FC<InspectVector2Props> = ({
 
     const handleMouseDown = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
+      const mouseX = Math.round(e.clientX - rect.left);
+      const mouseY = Math.round(e.clientY - rect.top);
       const newX = min + (mouseX / canvas.width) * (max - min);
       const newY = min + ((canvas.height - mouseY) / canvas.height) * (max - min);
-
       const clampedX = Math.max(min, Math.min(max, newX));
       const clampedY = Math.max(min, Math.min(max, newY));
 
@@ -157,12 +155,10 @@ export const InspectVector2: React.FC<InspectVector2Props> = ({
       if (!isDragging) return;
 
       const rect = canvas.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
-
+      const mouseX = Math.round(e.clientX - rect.left);
+      const mouseY = Math.round(e.clientY - rect.top);
       const newX = min + (mouseX / canvas.width) * (max - min);
       const newY = min + ((canvas.height - mouseY) / canvas.height) * (max - min);
-
       const clampedX = Math.max(min, Math.min(max, newX));
       const clampedY = Math.max(min, Math.min(max, newY));
 
